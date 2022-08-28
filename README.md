@@ -1,6 +1,6 @@
 # numbase
 
-Numbase is a fullstack website which used to convert numbers between bases 2 - 16.
+Numbase is a fullstack website used to seamlessly convert numbers between bases 2 - 16.
 
 ## Features
 <hr>
@@ -19,7 +19,6 @@ Follow this [guide](https://github.com/AltGophers/numbase/blob/main/CONTRIBUTING
 
 ## Requires
 <hr>
-<code>golang 1.18</code>
 
 To setup this project locally:
-<li> Ensure <code>golang 1.18</code> or higher is installed
+<li> Ensure <code>golang 1.18</code> or higher is installed</li>
