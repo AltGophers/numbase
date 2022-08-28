@@ -9,7 +9,7 @@ in all your interactions within the project.
 
 Ensure the issue is not being handled by someone else by checking the open issues.
 If your issue has not yet been assigned to anyone, you can signify in the comments for it to be assigned to you,
-and wait for you to be assigned to it by one of the maintainers. Otherwise, you can create an issue using the format 
+and wait for you to be assigned to it by one of the project admins. Otherwise, you can create an issue using the format 
 below and wait for the issue to be assigned to you.
 
 ## Filing an Issue
@@ -27,7 +27,7 @@ When filing an issue to add a new feature, make sure to provide an answer to the
 <li>Description</li>
 <li>What features will you implement? (an exhaustive list)</li>
 
-**NB:** After creating an issue, wait for the issue to be assigned to you by one of the maintainers.
+**NB:** After creating an issue, wait for the issue to be assigned to you by one of the admins.
 
 
 
