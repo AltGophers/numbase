@@ -23,6 +23,7 @@ func toBase10(base int8, number int64) (int64, error) {
 	return int64(answer), nil
 }
 
+// fromAnyBasetoAnyBase converts a number in a specified base to a desired base
 func fromAnyBasetoAnyBase(base int8, number int64, desiredBase int) (int, error) {
 
 	if base != 10 {
