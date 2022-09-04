@@ -1,3 +1,3 @@
-module github.com/Christomesh/numbase
+module github.com/AltGophers/numbase
 
-go 1.19
+go 1.17
