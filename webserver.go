@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 	)
@@ -43,9 +42,10 @@ func startServer() {
 	fmt.Println("Starting server at port 8080")
 	fmt.Println("go to http://localhost:8080 on your browser")
 
-	//listening and serving the html file on port 8080
-	if err := http.ListenAndServe(":8080",nil); err != nil {
-		log.Fatal(err)
+		
+	
 	}
 
-}
+
+	
+
