@@ -30,12 +30,7 @@ body {
   margin-bottom: 10px;
 }
 
-/* .convert-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-} */
+
 
 
 
@@ -122,5 +117,9 @@ input::placeholder{
   font-size: 15px;
   width: 250px;
   color :white;
-  padding:7px
+  padding:7px;
+}
+
+.subtitle:hover, .subtitle:active {
+  text-decoration: none;
 }
