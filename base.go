@@ -30,6 +30,7 @@ func fromAnyBasetoAnyBase(base int8, number int64, desiredBase int) (int, error)
 		numBase10, err := toBase10(base, number)
 		if err != nil {
 			log.Fatal(err)
+
 		}
 		number = numBase10
 	}
