@@ -7,7 +7,7 @@ import (
 	"strconv"
 	)
 
-	func ConverterHandler(w http.ResponseWriter, r *http.Request){
+	func converterHandler(w http.ResponseWriter, r *http.Request){
 		if err := r.ParseForm(); err != nil {
 			fmt.Fprintf(w,"ParseForm() err: %v\n", err)
 			return
@@ -38,7 +38,7 @@ func startServer() {
 	http.Handle("/",fileServer)
 
   //routing to /base e.g(localhost:8080/base) which is handled by convertHandler to display result
-	http.HandleFunc("/base", ConverterHandler)
+	http.HandleFunc("/base", converterHandler)
 
 	fmt.Println("Starting server at port 8080")
 	fmt.Println("go to http://localhost:8080 on your browser")
