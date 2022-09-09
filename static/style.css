@@ -1,0 +1,125 @@
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Inter', sans-serif;
+    padding: 20px;
+}
+.base-app {
+    min-width: 250px;
+    max-width: 700px;
+    margin: 0 auto;
+   
+    background-color: #6943FF;
+    height: 60%;
+    text-align: center;
+    color: white;
+    padding: 20px;
+    border-radius: 17px;
+}
+
+.app-title {
+  padding: 10px;
+  font-size: 28px;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+
+
+
+
+#digit, #base {
+    width: 100px;
+    height: 50px;
+    font-size: 25px;
+    text-align: center;
+    border: 2px solid #B295FF;
+    border-radius: 5px;
+    background-color: #6943FF;
+    color: white;
+    margin-bottom: 15px;
+    margin: 0;
+}
+
+
+#base {
+  width: 60px;
+  height: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  
+}
+
+input::placeholder{
+  color: white;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  font-weight: normal;
+}
+
+
+
+.convert-para, .convert-base, .separator {
+  margin-bottom: 15px;
+}
+
+
+.convert-btn {
+    display: block;
+    margin: 20px auto;
+    color: #3D3D3D;
+    width: 117px;
+    height: 42px;
+    font-size: calc(16px + 0.0023vw);
+}
+
+/*88888888888 Index section 888888888888*/
+
+.altgophers-home{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.home-title{
+  padding:20px;
+  margin-bottom: 20px;
+}
+
+.tools {
+  padding: 20px;
+}
+.base-converter {
+  background-color: #6943FF;
+  border: 2px solid #6943FF;
+ 
+  border-radius: 7px;
+  width: 253px;
+  height: 250px;
+}
+
+.base-converter:hover {
+  cursor: pointer;
+  
+}
+.base-img {
+  width: 250px;
+  object-fit: cover;
+}
+.subtitle{
+  font-size: 15px;
+  width: 250px;
+  color :white;
+  padding:7px;
+}
+
+.subtitle:hover, .subtitle:active {
+  text-decoration: none;
+}

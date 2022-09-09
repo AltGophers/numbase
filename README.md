@@ -19,3 +19,10 @@ Follow this [guide](https://github.com/AltGophers/numbase/blob/main/CONTRIBUTING
 
 To setup this project locally:
 <li> Ensure <code>golang 1.18</code> or higher is installed</li>
+<li> Navigate to the <code>base.go</code> file and take note of the functions</li>
+<li> Implement any of the functions in <code>base.go</code> in the <code>main()</code> function in <code>main.go</code></li>
+<li> Run source code using: </li>
+<ul> <li> <code>go run .</code> </li>
+    OR
+    <li> <code>go build</code>, then run executable using <code>./numbase</code> </li>
+</ul>
