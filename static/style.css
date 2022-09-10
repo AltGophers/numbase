@@ -91,6 +91,7 @@ input::placeholder{
 .home-title{
   padding:20px;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .tools {
@@ -114,10 +115,9 @@ input::placeholder{
   object-fit: cover;
 }
 .subtitle{
-  font-size: 15px;
-  width: 250px;
   color :white;
-  padding:7px;
+  text-align: center;
+  padding: 15px;
 }
 
 .subtitle:hover, .subtitle:active {
