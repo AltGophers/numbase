@@ -71,17 +71,14 @@ func hexToOCT(hexNum string) string {
 			binary.LittleEndian.PutUint32(remIntByte, uint32(remInt))
 			remRune, _ := utf8.DecodeRune(remIntByte)
 			remValue = remRune * 1
-
 		} else if rem >= 'A' && rem <= 'F' {
 			strNew = string(rem)
 			remRune, _ := utf8.DecodeRuneInString(strNew)
 			remValue = remRune - 55
-
 		} else if rem >= 'a' && rem <= 'f' {
 			strNew = string(rem)
 			remRune, _ := utf8.DecodeRuneInString(strNew)
 			remValue = remRune - 87
-
 		} else {
 			Chk = 1
 			break
@@ -105,7 +102,6 @@ func hexToOCT(hexNum string) string {
 			a = append(a[:ind+1], a[ind:]...)
 			a[ind] = val
 			return a
-
 		}
 
 		for decNum != 0 {
