@@ -6,7 +6,6 @@ import (
 	"log"
 	"math"
 	"strconv"
-	"strings"
 	"unicode/utf8"
 )
 
@@ -17,7 +16,7 @@ func toBase10(base int8, number int64) (int64, error) {
 	for number != 0 {
 		currentNum := number % 10
 		if int8(currentNum) >= base {
-			return 0, fmt.Errorf("Error: %d not in specified base: %d", inputNum, base)
+			return 0, fmt.Errorf("error: %d not in specified base: %d", inputNum, base)
 		}
 
 		number /= 10
@@ -52,12 +51,12 @@ func fromAnyBasetoAnyBase(base int8, number int64, desiredBase int) (int, error)
 
 }
 
-// to convert hexadecimals to octal numbers
+// to convert hexadecimals to any desired base between base 2-10
 
-func hextoOCT(hexdecNum string) string {
+func hextoAny(hexdecNum string, desiredBase int) (int, error) {
 
-	var octstr []string
-	var octEquivalent string
+	var result int
+	var err error
 	Chk := 0
 	decnum := 0
 	i := 0
@@ -66,8 +65,8 @@ func hextoOCT(hexdecNum string) string {
 	hexdecNumLen = hexdecNumLen - 1
 
 	for hexdecNumLen >= 0 {
-		var rem byte
-		rem = hexdecNum[hexdecNumLen]
+		
+		rem := hexdecNum[hexdecNumLen]
 		var strnew string
 		var remValue rune
 
@@ -101,47 +100,13 @@ func hextoOCT(hexdecNum string) string {
 	}
 
 	if Chk == 0 {
-
-		i = 0
-		var octalNum []int
-
-		insert := func(a []int, ind int, val int) []int {
-			if len(a) == ind {
-				return append(a, val)
-			}
-			a = append(a[:ind+1], a[ind:]...)
-			a[ind] = val
-			return a
-
+		result, err = fromAnyBasetoAnyBase(10, int64(decnum), desiredBase)
+		if err != nil {
+			log.Fatalf("Can't convert resulted decimal number from the inputted hexadecimal to your desired base ")
 		}
-
-		for decnum != 0 {
-			remOct := decnum % 8
-			octalNum = insert(octalNum, i, remOct)
-			i = i + 1
-			decnum = int(decnum / 8)
-
-			if decnum == 0 {
-				break
-			}
-		}
-
-		i = i - 1
-		for i >= 0 {
-
-			octInt := octalNum[i]
-			octInttoStr := strconv.Itoa(octInt)
-			octstr = append(octstr, octInttoStr)
-			i = i - 1
-
-		}
-		octJoin := strings.Join(octstr, "")
-		octEquivalent = fmt.Sprintf("\nThe Octal Equivalent is: %s", octJoin)
-
-	} else {
-		fmt.Println("\nInvalid Input!")
 	}
-	return octEquivalent
+
+	return result, nil
 
 }
 
