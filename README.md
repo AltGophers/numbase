@@ -17,6 +17,10 @@ and adhere to them in all your interactions within the project.
 Next, read our  
 [contribution guide](https://github.com/AltGophers/numbase/blob/main/CONTRIBUTING.md).
 
+Finally, join our  
+[community](https://t.me/+gKyUH8L50vYwODg0)
+on telegram.
+
 ## Requires
 
 To setup this project locally:

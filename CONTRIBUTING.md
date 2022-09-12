@@ -34,3 +34,7 @@ these sections:
 
 **NB:** After creating an issue, wait for the issue to be assigned to you by one
 of the admins.
+
+## Community
+
+Join our [telegram community](https://t.me/+gKyUH8L50vYwODg0) to interact with other contributors.
