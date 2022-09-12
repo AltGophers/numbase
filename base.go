@@ -3,21 +3,20 @@ package main
 import (
 	"encoding/binary"
 	"fmt"
-	"log"
 	"math"
 	"strconv"
 	"strings"
 	"unicode/utf8"
 )
 
-// toBase10 converts a number in a specified base to decimal (base 10)
-func toBase10(base int8, number int64) (int64, error) {
+// convertNumToBase10 converts a number in the specified base to base 10.
+func convertNumToBase10(base int8, number int64) (int64, error) {
 	index, answer := 0, 0.0
-	inputNum := number
+	originalNum := number
 	for number != 0 {
 		currentNum := number % 10
 		if int8(currentNum) >= base {
-			return 0, fmt.Errorf("Error: %d not in specified base: %d", inputNum, base)
+			return 0, fmt.Errorf("Error: %d not in specified base: %d", originalNum, base)
 		}
 
 		number /= 10
@@ -27,14 +26,12 @@ func toBase10(base int8, number int64) (int64, error) {
 	return int64(answer), nil
 }
 
-// fromAnyBasetoAnyBase converts a number in a specified base to a desired base
-func fromAnyBasetoAnyBase(base int8, number int64, desiredBase int) (int, error) {
-
+// convertToBase converts a number from its current base to a desired base.
+func convertToBase(base int8, number int64, desiredBase int) (int, error) {
 	if base != 10 {
-		numBase10, err := toBase10(base, number)
+		numBase10, err := convertNumToBase10(base, number)
 		if err != nil {
-			log.Fatal(err)
-
+			return 0, fmt.Errorf("convertNumToBase10 error: %v", err)
 		}
 		number = numBase10
 	}
@@ -43,32 +40,28 @@ func fromAnyBasetoAnyBase(base int8, number int64, desiredBase int) (int, error)
 	counter := 1
 	remainder := 0
 	for number != 0 {
-		remainder = int(number) % int(desiredBase)
+		remainder = int(number) % desiredBase
 		number = number / int64(desiredBase)
 		result += remainder * counter
 		counter *= 10
 	}
 	return result, nil
-
 }
 
-// to convert hexadecimals to octal numbers
-
-func hextoOCT(hexdecNum string) string {
-
-	var octstr []string
+// hexToOCT converts hexadecimals to octal numbers.
+func hexToOCT(hexNum string) string {
+	var octStr []string
 	var octEquivalent string
-	Chk := 0
-	decnum := 0
-	i := 0
+	var Chk int
+	var decNum int
+	var i int
 
-	hexdecNumLen := len(hexdecNum)
-	hexdecNumLen = hexdecNumLen - 1
+	hexNumLen := len(hexNum)
+	hexNumLen = hexNumLen - 1
 
-	for hexdecNumLen >= 0 {
-		var rem byte
-		rem = hexdecNum[hexdecNumLen]
-		var strnew string
+	for hexNumLen >= 0 {
+		rem := hexNum[hexNumLen]
+		var strNew string
 		var remValue rune
 
 		if rem >= '0' && rem <= '9' {
@@ -78,31 +71,28 @@ func hextoOCT(hexdecNum string) string {
 			binary.LittleEndian.PutUint32(remIntByte, uint32(remInt))
 			remRune, _ := utf8.DecodeRune(remIntByte)
 			remValue = remRune * 1
-
 		} else if rem >= 'A' && rem <= 'F' {
-			strnew = string(rem)
-			remRune, _ := utf8.DecodeRuneInString(strnew)
+			strNew = string(rem)
+			remRune, _ := utf8.DecodeRuneInString(strNew)
 			remValue = remRune - 55
-
 		} else if rem >= 'a' && rem <= 'f' {
-			strnew = string(rem)
-			remRune, _ := utf8.DecodeRuneInString(strnew)
+			strNew = string(rem)
+			remRune, _ := utf8.DecodeRuneInString(strNew)
 			remValue = remRune - 87
-
 		} else {
 			Chk = 1
 			break
 		}
+
 		iFloat := float64(i)
 		res := int(math.Pow(16, iFloat))
-		decnum = decnum + (int(remValue) * res)
-		hexdecNumLen = hexdecNumLen - 1
+		decNum = decNum + (int(remValue) * res)
+		hexNumLen = hexNumLen - 1
 		i = i + 1
 	}
 
 	if Chk == 0 {
-
-		i = 0
+		var i int
 		var octalNum []int
 
 		insert := func(a []int, ind int, val int) []int {
@@ -112,37 +102,30 @@ func hextoOCT(hexdecNum string) string {
 			a = append(a[:ind+1], a[ind:]...)
 			a[ind] = val
 			return a
-
 		}
 
-		for decnum != 0 {
-			remOct := decnum % 8
+		for decNum != 0 {
+			remOct := decNum % 8
 			octalNum = insert(octalNum, i, remOct)
 			i = i + 1
-			decnum = int(decnum / 8)
-
-			if decnum == 0 {
+			decNum = decNum / 8
+			if decNum == 0 {
 				break
 			}
 		}
 
 		i = i - 1
 		for i >= 0 {
-
 			octInt := octalNum[i]
-			octInttoStr := strconv.Itoa(octInt)
-			octstr = append(octstr, octInttoStr)
+			octIntToStr := strconv.Itoa(octInt)
+			octStr = append(octStr, octIntToStr)
 			i = i - 1
-
 		}
-		octJoin := strings.Join(octstr, "")
-		octEquivalent = fmt.Sprintf("\nThe Octal Equivalent is: %s", octJoin)
 
+		octJoin := strings.Join(octStr, "")
+		octEquivalent = fmt.Sprintf("\nThe Octal Equivalent is: %s", octJoin)
 	} else {
 		fmt.Println("\nInvalid Input!")
 	}
 	return octEquivalent
-
 }
-
-

@@ -1,0 +1,41 @@
+name: Build and Test
+on: 
+ push:
+    branches: [ main ]
+ pull_request:
+
+permissions:
+  contents: read
+jobs:
+  build-go:
+    name: Go CI
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: [1.18, 1.19]
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Check out source
+        uses: actions/checkout@v3
+      - name: Install Linters
+        run: "curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.47.3"
+
+      - name: Test
+        env:
+          GO111MODULE: "on"
+        run: |
+          ./run_tests.sh
+  lint-docs:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: DavidAnson/markdownlint-cli2-action@v7
+      continue-on-error: true
+      with:
+        globs: |
+          *.md

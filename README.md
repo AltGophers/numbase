@@ -1,28 +1,30 @@
 # numbase
 
-Numbase is a fullstack website used to seamlessly convert numbers between bases 2 - 16.
+Numbase is a micro tool that seamlessly converts numbers between bases 2 - 16.
 
 ## Features
 
-<li>Binary to Hexadecimal conversions</li>
-<li>Two's complement conversion of negative decimal numbers to binary</li>
-<li>Converstion of floating point numbers to base 10</li>
+- Binary to Hexadecimal conversions
+- Two's complement conversion of negative decimal numbers to binary
+- Conversion of floating point numbers to base 10
 
 ## Contributing
 
-First of all please follow the [CODE_OF_CONDUCT](https://github.com/AltGophers/numbase/blob/main/CODE_OF_CONDUCT.md) 
-in all your interactions within the project.
+ To start contributing, you should read our
+[CODE_OF_CONDUCT](https://github.com/AltGophers/numbase/blob/main/CODE_OF_CONDUCT.md)
+and adhere to them in all your interactions within the project.
 
-Follow this [guide](https://github.com/AltGophers/numbase/blob/main/CONTRIBUTING.md) to contribute 
+Next, read our  
+[contribution guide](https://github.com/AltGophers/numbase/blob/main/CONTRIBUTING.md).
 
 ## Requires
 
 To setup this project locally:
-<li> Ensure <code>golang 1.18</code> or higher is installed</li>
-<li> Navigate to the <code>base.go</code> file and take note of the functions</li>
-<li> Implement any of the functions in <code>base.go</code> in the <code>main()</code> function in <code>main.go</code></li>
-<li> Run source code using: </li>
-<ul> <li> <code>go run .</code> </li>
+
+- Ensure `golang 1.18` or higher is installed.
+- Navigate to the `base.go` file and take note of the functions.
+- Implement any of the functions in `base.go` in the `main()` function in `main.go`.
+- Run source code using:
+- `go run .`
     OR
-    <li> <code>go build</code>, then run executable using <code>./numbase</code> </li>
-</ul>
+- `go build`, then run executable using `./numbase`.

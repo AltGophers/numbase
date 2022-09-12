@@ -8,23 +8,22 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Karla:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>base converter app</title>
+    <title>Base Converter App</title>
 </head>
 <body>
     <main class="base-app">
             <h2 class="app-title">Base converter</h2>
-            <form action="/base" method="post">
+            <form action="/convert-to-base" method="post">
               <section class="convert-section"></section>
                 <div class="separator">
-                  <input name="digit" id="digit" name="digit" value="" placeholder="digit"/>              
+                  <input id="digit" name="digit" placeholder="number"/>              
                   <input name="base" id="base" type="number" placeholder="base" />
                </div>
                 <p class="convert-para">to</p>
-                <input name="convarsion-base" id="base" type="number" placeholder="base" class="convert-base" />
+                <input name="conversion-base" id="base" type="number" placeholder="base" class="convert-base" />
               <button class="convert-btn">Convert</button>
             </section>
            </form>
     </main>
-   <script src="index.js"></script> 
 </body>
 </html>
