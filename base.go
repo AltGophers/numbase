@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"math"
 	"strconv"
-	"strings"
 	"unicode/utf8"
 )
 
@@ -48,13 +47,13 @@ func convertToBase(base int8, number int64, desiredBase int) (int, error) {
 	return result, nil
 }
 
-// hexToOCT converts hexadecimals to octal numbers.
-func hexToOCT(hexNum string) string {
-	var octStr []string
-	var octEquivalent string
-	var Chk int
-	var decNum int
-	var i int
+// hexToAny convert hexadecimals to any desired base between base 2-10
+func hexToAny(hexNum string, desiredBase int) (int, error) {
+	var result int
+	var err error
+	Chk := 0
+	decNum := 0
+	i := 0
 
 	hexNumLen := len(hexNum)
 	hexNumLen = hexNumLen - 1
@@ -92,40 +91,11 @@ func hexToOCT(hexNum string) string {
 	}
 
 	if Chk == 0 {
-		var i int
-		var octalNum []int
-
-		insert := func(a []int, ind int, val int) []int {
-			if len(a) == ind {
-				return append(a, val)
-			}
-			a = append(a[:ind+1], a[ind:]...)
-			a[ind] = val
-			return a
+		result, err = convertToBase(10, int64(decNum), desiredBase)
+		if err != nil {
+			log.Fatalf("Can't convert resulted decimal number from the inputted hexadecimal to your desired base ")
 		}
-
-		for decNum != 0 {
-			remOct := decNum % 8
-			octalNum = insert(octalNum, i, remOct)
-			i = i + 1
-			decNum = decNum / 8
-			if decNum == 0 {
-				break
-			}
-		}
-
-		i = i - 1
-		for i >= 0 {
-			octInt := octalNum[i]
-			octIntToStr := strconv.Itoa(octInt)
-			octStr = append(octStr, octIntToStr)
-			i = i - 1
-		}
-
-		octJoin := strings.Join(octStr, "")
-		octEquivalent = fmt.Sprintf("\nThe Octal Equivalent is: %s", octJoin)
-	} else {
-		fmt.Println("\nInvalid Input!")
 	}
-	return octEquivalent
+
+	return result, nil
 }
