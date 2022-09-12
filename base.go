@@ -15,7 +15,7 @@ func convertNumToBase10(base int8, number int64) (int64, error) {
 	for number != 0 {
 		currentNum := number % 10
 		if int8(currentNum) >= base {
-			return 0, fmt.Errorf("Error: %d not in specified base: %d", originalNum, base)
+			return 0, fmt.Errorf("error: %d not in specified base: %d", originalNum, base)
 		}
 
 		number /= 10
@@ -93,7 +93,7 @@ func hexToAny(hexNum string, desiredBase int) (int, error) {
 	if Chk == 0 {
 		result, err = convertToBase(10, int64(decNum), desiredBase)
 		if err != nil {
-			log.Fatalf("Can't convert resulted decimal number from the inputted hexadecimal to your desired base ")
+			return 0, fmt.Errorf("convertToBase Err: %v", err)
 		}
 	}
 
