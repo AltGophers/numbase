@@ -16,32 +16,34 @@ func convertToBaseHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Getting the form values from base.html using their input name.
-	digit := r.FormValue("digit")
+	digits := r.FormValue("digit")
 	base := r.FormValue("base")
 	convertBase := r.FormValue("conversion-base")
 
-	// Converting the form values to  integers.
-	d, err := strconv.Atoi(digit)
-	if err != nil {
-		fmt.Fprintf(w, "Failed to convert digit: %v\n", err)
-		return
-	}
-
-	b, err := strconv.Atoi(base)
+	currentBase, err := strconv.Atoi(base)
 	if err != nil {
 		fmt.Fprintf(w, "Failed to convert base: %v\n", err)
 		return
 	}
 
-	cb, err := strconv.Atoi(convertBase)
+	desiredBase, err := strconv.Atoi(convertBase)
 	if err != nil {
 		fmt.Fprintf(w, "Failed to convert conversion-base: %v\n", err)
 		return
 	}
 
-	// Base calculation is done here.
-	result, _ := convertToBase(int8(b), int64(d), cb)
-	fmt.Fprintf(w, "Result = %v base %v\n", result, cb)
+	if currentBase < 2 || currentBase > 16 || desiredBase < 2 || desiredBase > 16 {
+		fmt.Fprintf(w, "invalid input: This calculator supports only bases between 2 - 16")
+		return
+	}
+
+	result, err := convertToBase(int8(currentBase), digits, int8(desiredBase))
+	if err != nil {
+		fmt.Fprint(w, err)
+		return
+	}
+
+	fmt.Fprintf(w, "%v base %v = %v base %v\n", digits, currentBase, result, desiredBase)
 }
 
 // startServer starts the default http server.

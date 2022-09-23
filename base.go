@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/binary"
 	"fmt"
 	"math"
@@ -8,14 +9,58 @@ import (
 	"unicode/utf8"
 )
 
+// convertToBase converts a number from its current base to a desired base between 2 - 16
+func convertToBase(base int8, num string, desiredBase int8) (string, error) {
+	var result string
+	var number int64
+	var err error
+
+	if base < 10 {
+		if number, err = strconv.ParseInt(num, 10, 64); err != nil {
+			return "", ErrInvalidBase(base)
+		}
+		//fmt.Println(number)
+		numBase10, err := convertNumToBase10(base, number)
+		if err != nil {
+			return "", fmt.Errorf("convertToBase10 error: %v", err)
+		}
+		//fmt.Println(numBase10)
+		number = numBase10
+
+	} else if base > 10 {
+		numBase10, err := convertBasesAboveTenToBase10(num, base)
+		if err != nil {
+			return "", fmt.Errorf("convertToBase10 error: %v", err)
+		}
+		number = numBase10
+	} else {
+		number, err = strconv.ParseInt(num, 10, 64)
+		if err != nil {
+			return "", ErrInvalidBase(base)
+		}
+	}
+
+	switch {
+	case desiredBase > 10:
+		result = convertToBaseGreaterThan10(number, desiredBase)
+	case desiredBase < 10:
+		numResult := convertToBaseLessThan10(number, desiredBase)
+		result = fmt.Sprint(numResult)
+	default:
+		result = fmt.Sprint(number)
+	}
+
+	return result, nil
+}
+
 // convertNumToBase10 converts a number in the specified base to base 10.
 func convertNumToBase10(base int8, number int64) (int64, error) {
 	index, answer := 0, 0.0
-	originalNum := number
+
 	for number != 0 {
 		currentNum := number % 10
 		if int8(currentNum) >= base {
-			return 0, fmt.Errorf("error: %d not in specified base: %d", originalNum, base)
+			return 0, ErrInvalidBase(base)
 		}
 
 		number /= 10
@@ -25,77 +70,96 @@ func convertNumToBase10(base int8, number int64) (int64, error) {
 	return int64(answer), nil
 }
 
-// convertToBase converts a number from its current base to a desired base.
-func convertToBase(base int8, number int64, desiredBase int) (int, error) {
-	if base != 10 {
-		numBase10, err := convertNumToBase10(base, number)
-		if err != nil {
-			return 0, fmt.Errorf("convertNumToBase10 error: %v", err)
-		}
-		number = numBase10
+// convertToBaseGreaterThan10 converts a number in base 10 to a number greater than base 10
+func convertToBaseGreaterThan10(number int64, desiredBase int8) string {
+	numResult := make([]byte, 0, 2)
+	m := map[int][]byte{
+		10: {'A'},
+		11: {'B'},
+		12: {'C'},
+		13: {'D'},
+		14: {'E'},
+		15: {'F'},
 	}
 
-	result := 0
-	counter := 1
 	remainder := 0
 	for number != 0 {
-		remainder = int(number) % desiredBase
+		remainder = int(number % int64(desiredBase))
+		if remainder >= 10 {
+			numResult = append(m[remainder], numResult...)
+		} else {
+			numResult = append([]byte(strconv.Itoa(remainder)), numResult...)
+		}
 		number = number / int64(desiredBase)
-		result += remainder * counter
-		counter *= 10
 	}
-	return result, nil
+
+	return string(numResult)
 }
 
-// hexToAny convert hexadecimals to any desired base between base 2-10
-func hexToAny(hexNum string, desiredBase int) (int, error) {
-	var result int
-	var err error
-	Chk := 0
-	decNum := 0
+// convertToBaseLessThan10 converts a number in base 10 to a number less than base 10
+func convertToBaseLessThan10(number int64, desiredBase int8) int64 {
+	numResult := int64(0)
+	counter := int64(1)
+	remainder := 0
+	for number != 0 {
+		remainder = int(number % int64(desiredBase))
+		number = number / int64(desiredBase)
+		numResult += int64(remainder) * counter
+		counter *= 10
+	}
+	return numResult
+}
+
+// convertBasesAboveTenToBase10 convert a number from its current base > 10 to base 10
+func convertBasesAboveTenToBase10(num string, currentBase int8) (int64, error) {
+	decNum := int64(0)
 	i := 0
 
-	hexNumLen := len(hexNum)
-	hexNumLen = hexNumLen - 1
-
-	for hexNumLen >= 0 {
-		rem := hexNum[hexNumLen]
-		var strNew string
+	numLen := len(num) - 1
+	for numLen >= 0 {
+		rem := num[numLen]
 		var remValue rune
 
 		if rem >= '0' && rem <= '9' {
-			remStr := string(rem)
-			remInt, _ := strconv.Atoi(remStr)
+			remInt, _ := strconv.Atoi(string(rem))
 			remIntByte := make([]byte, 4)
 			binary.LittleEndian.PutUint32(remIntByte, uint32(remInt))
-			remRune, _ := utf8.DecodeRune(remIntByte)
-			remValue = remRune * 1
+			remValue, _ = utf8.DecodeRune(remIntByte)
 		} else if rem >= 'A' && rem <= 'F' {
-			strNew = string(rem)
-			remRune, _ := utf8.DecodeRuneInString(strNew)
-			remValue = remRune - 55
+			if !isValidBaseDigit(rem, currentBase) {
+				return 0, ErrInvalidBase(currentBase)
+			}
+			remRune, _ := utf8.DecodeRuneInString(string(rem))
+			remValue = remRune - 55 // Set remValue to the hexadecimal value of remRune
 		} else if rem >= 'a' && rem <= 'f' {
-			strNew = string(rem)
-			remRune, _ := utf8.DecodeRuneInString(strNew)
-			remValue = remRune - 87
+			if !isValidBaseDigit(rem, currentBase) {
+				return 0, ErrInvalidBase(currentBase)
+			}
+			remRune, _ := utf8.DecodeRuneInString(string(rem))
+			remValue = remRune - 87 // Set remValue to the hexadecimal value of remRune
 		} else {
-			Chk = 1
-			break
+			return 0, ErrInvalidBase(currentBase)
 		}
 
-		iFloat := float64(i)
-		res := int(math.Pow(16, iFloat))
-		decNum = decNum + (int(remValue) * res)
-		hexNumLen = hexNumLen - 1
-		i = i + 1
+		res := int64(math.Pow(float64(currentBase), float64(i)))
+		decNum = decNum + (int64(remValue) * res)
+		numLen--
+		i++
 	}
 
-	if Chk == 0 {
-		result, err = convertToBase(10, int64(decNum), desiredBase)
-		if err != nil {
-			return 0, fmt.Errorf("convertToBase Err: %v", err)
-		}
-	}
+	return decNum, nil
+}
 
-	return result, nil
+func isValidBaseDigit(digit byte, base int8) bool {
+	var bases = []byte{'A', 'B', 'C', 'D', 'E', 'F'}
+	sliceDigit := []byte{digit}
+
+	if !bytes.Contains(bases[:base-10], bytes.ToUpper(sliceDigit)) {
+		return false
+	}
+	return true
+}
+
+func ErrInvalidBase(base int8) error {
+	return fmt.Errorf("conversion error: Specified number is not in base %d", base)
 }
