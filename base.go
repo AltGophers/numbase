@@ -73,27 +73,32 @@ func convertNumToBase10(base int8, number int64) (int64, error) {
 // convertToBaseGreaterThan10 converts a number in base 10 to a number greater than base 10
 func convertToBaseGreaterThan10(number int64, desiredBase int8) string {
 	numResult := make([]byte, 0, 2)
-	m := map[int][]byte{
-		10: {'A'},
-		11: {'B'},
-		12: {'C'},
-		13: {'D'},
-		14: {'E'},
-		15: {'F'},
+	m := map[int]byte{
+		10: 'A',
+		11: 'B',
+		12: 'C',
+		13: 'D',
+		14: 'E',
+		15: 'F',
 	}
 
 	remainder := 0
 	for number != 0 {
 		remainder = int(number % int64(desiredBase))
 		if remainder >= 10 {
-			numResult = append(m[remainder], numResult...)
+			numResult = append(numResult, m[remainder])
 		} else {
-			numResult = append([]byte(strconv.Itoa(remainder)), numResult...)
+			numResult = append(numResult, []byte(strconv.Itoa(remainder))...)
 		}
 		number = number / int64(desiredBase)
 	}
+        
+        var numResultRvsed = []byte{}
+        for i:=len(numResult)-1; i>=0; i-- {
+                numResultRvsed = append(numResultRvsed, numResult[i])
+        }
 
-	return string(numResult)
+	return string(numResultRvsed)
 }
 
 // convertToBaseLessThan10 converts a number in base 10 to a number less than base 10
