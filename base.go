@@ -154,10 +154,7 @@ func isValidBaseDigit(digit byte, base int8) bool {
 	var bases = []byte{'A', 'B', 'C', 'D', 'E', 'F'}
 	sliceDigit := []byte{digit}
 
-	if !bytes.Contains(bases[:base-10], bytes.ToUpper(sliceDigit)) {
-		return false
-	}
-	return true
+	return bytes.Contains(bases[:base-10], bytes.ToUpper(sliceDigit))
 }
 
 func ErrInvalidBase(base int8) error {
