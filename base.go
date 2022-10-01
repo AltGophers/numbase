@@ -19,12 +19,10 @@ func convertToBase(base int8, num string, desiredBase int8) (string, error) {
 		if number, err = strconv.ParseInt(num, 10, 64); err != nil {
 			return "", ErrInvalidBase(base)
 		}
-		//fmt.Println(number)
 		numBase10, err := convertNumToBase10(base, number)
 		if err != nil {
 			return "", fmt.Errorf("convertToBase10 error: %v", err)
 		}
-		//fmt.Println(numBase10)
 		number = numBase10
 
 	} else if base > 10 {
@@ -92,11 +90,11 @@ func convertToBaseGreaterThan10(number int64, desiredBase int8) string {
 		}
 		number = number / int64(desiredBase)
 	}
-        
-        var numResultRvsed = []byte{}
-        for i:=len(numResult)-1; i>=0; i-- {
-                numResultRvsed = append(numResultRvsed, numResult[i])
-        }
+
+	var numResultRvsed = []byte{}
+	for i := len(numResult) - 1; i >= 0; i-- {
+		numResultRvsed = append(numResultRvsed, numResult[i])
+	}
 
 	return string(numResultRvsed)
 }
