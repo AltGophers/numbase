@@ -91,7 +91,7 @@ func convertToBaseGreaterThan10(number int64, desiredBase int8) string {
 		number = number / int64(desiredBase)
 	}
 
-	var numResultRvsed = []byte{}
+	var numResultRvsed []byte
 	for i := len(numResult) - 1; i >= 0; i-- {
 		numResultRvsed = append(numResultRvsed, numResult[i])
 	}
@@ -154,7 +154,7 @@ func convertBasesAboveTenToBase10(num string, currentBase int8) (int64, error) {
 }
 
 func isValidBaseDigit(digit byte, base int8) bool {
-	var bases = []byte{'A', 'B', 'C', 'D', 'E', 'F'}
+	bases := []byte{'A', 'B', 'C', 'D', 'E', 'F'}
 	sliceDigit := []byte{digit}
 
 	return bytes.Contains(bases[:base-10], bytes.ToUpper(sliceDigit))

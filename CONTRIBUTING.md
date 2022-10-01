@@ -37,4 +37,5 @@ of the admins.
 
 ## Community
 
-Join our [telegram community](https://t.me/+gKyUH8L50vYwODg0) to interact with other contributors.
+Join our [telegram community](https://t.me/+gKyUH8L50vYwODg0) to 
+interact with other contributors.
