@@ -23,12 +23,12 @@ on telegram.
 
 ## Requires
 
-To setup this project locally:
+To set up this project locally:
 
 - Ensure `golang 1.18` or higher is installed.
 - Navigate to the `base.go` file and take note of the functions.
-- Implement any of the functions in `base.go` in the `main()` function in `main.go`.
 - Run source code using:
 - `go run .`
     OR
 - `go build`, then run executable using `./numbase`.
+- Navigate to your browser to test code.
